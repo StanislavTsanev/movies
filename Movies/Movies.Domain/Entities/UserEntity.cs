@@ -1,6 +1,4 @@
-﻿using Movies.Domain.Entities;
-
-namespace Movies.Domain
+﻿namespace Movies.Domain.Entities
 {
     public class UserEntity : BaseEntity
     {

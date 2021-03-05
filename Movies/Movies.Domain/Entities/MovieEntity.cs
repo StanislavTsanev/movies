@@ -1,8 +1,7 @@
-﻿using Movies.Domain.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace Movies.Domain
+namespace Movies.Domain.Entities
 {
     public class MovieEntity : BaseEntity
     {
