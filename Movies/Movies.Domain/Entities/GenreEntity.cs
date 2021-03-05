@@ -2,7 +2,7 @@
 
 namespace Movies.Domain.Entities
 {
-    public class GenreEntity
+    public class GenreEntity : BaseEntity
     {
         public GenreEntity()
         {
