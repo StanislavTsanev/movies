@@ -15,9 +15,11 @@ namespace Movies.Application.Features.Movies.Queries.GetMovies
         {
         }
 
-        public override Task<IEnumerable<MovieDto>> Handle(GetMoviesQuery request, CancellationToken cancellationToken)
+        public override async  Task<IEnumerable<MovieDto>> Handle(GetMoviesQuery request, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            var movies = await _data.Movies.GetAllAsync();
+
+            return _mapper.Map<IEnumerable<MovieDto>>(movies);
         }
     }
 }
