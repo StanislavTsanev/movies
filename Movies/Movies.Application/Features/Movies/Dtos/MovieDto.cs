@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Movies.Application.Features.Genres.Dtos;
+using System;
 using System.Collections.Generic;
 
 namespace Movies.Application.Features.Movies.Dtos
