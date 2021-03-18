@@ -1,4 +1,6 @@
-﻿namespace Movies.Application.Common.Models.Mediatr
+﻿using System.Collections.Generic;
+
+namespace Movies.Application.Common.Models.Mediatr
 {
     public class UserInfo
     {
