@@ -1,11 +1,9 @@
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Movies.Persistance;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Movies.API
 {
@@ -13,14 +11,29 @@ namespace Movies.API
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateWebHostBuilder(args).Build();
+            using (var scope = host.Services.CreateScope())
+            {
+                try
+                {
+                    var dbContext = scope.ServiceProvider.GetService<MoviesContext>();
+                    dbContext.Database.EnsureCreated();
+                    MoviesInitializer.Initialize(dbContext);
+                }
+                catch (Exception e)
+                {
+                    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(e, "An error occured while initializing the database.");
+                }
+            }
+
+            host.Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
+            return WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>();
+        }
     }
 }

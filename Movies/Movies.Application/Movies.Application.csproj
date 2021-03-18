@@ -1,13 +1,8 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Folder Include="Common\Models\Mediatr\" />
-    <Folder Include="Features\Movies\Queries\" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
@@ -16,6 +11,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Movies.Domain\Movies.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\Users\" />
   </ItemGroup>
 
 </Project>
