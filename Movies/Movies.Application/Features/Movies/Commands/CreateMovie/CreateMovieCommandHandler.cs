@@ -2,6 +2,7 @@
 using MediatR;
 using Movies.Application.Common.Interfaces;
 using Movies.Application.Common.Models.Mediatr;
+using Movies.Application.Features.MovieGenre.Commands;
 using Movies.Domain.Entities;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,22 +24,14 @@ namespace Movies.Application.Features.Movies.Commands.CreateMovie
 
             await _data.Movies.AddAsync(movieEntity);
 
-            //TODO: Add genres somehow
-
-            //await request.GenreIds.ForEachAsync(async n => await _mediator.Send(new CreateMovieGenreCommand
-            //{
-            //    MovieId = movieEntity.Id,
-            //    GenreId = n
-            //}));
-
-            //foreach (var x in request.GenreIds)
-            //{
-            //    _mediator.Send(new CreateMovieGenreCommand
-            //    {
-            //        MovieId = movieEntity.Id,
-            //        GenreId = x
-            //    });
-            //}
+            foreach (var x in request.GenreIds)
+            {
+                await _mediator.Send(new CreateMovieGenreCommand
+                {
+                    MovieId = movieEntity.Id,
+                    GenreId = x
+                });
+            }
 
             return movieEntity;
         }
