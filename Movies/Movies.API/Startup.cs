@@ -7,10 +7,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Movies.API.AutoMapper;
 using Movies.Application.Common.Interfaces;
+using Movies.Application.Features.Movies.AutoMapper;
+using Movies.Application.Features.Movies.Commands.CreateMovie;
 using Movies.Domain.Entities;
 using Movies.Persistance;
 using Movies.Persistance.Data;
+using System.Reflection;
 
 namespace Movies.API
 {
@@ -47,6 +51,7 @@ namespace Movies.API
             RegisterDbContext(services);
             RegisterRepositories(services);
             RegisterMediator(services);
+            services.AddAutoMapper(new Assembly[] { typeof(BmToRequestProfile).GetTypeInfo().Assembly, typeof(MovieRequestToEntityProfile).GetTypeInfo().Assembly });
 
             services.AddTransient<IData, MoviesData>();
 
@@ -107,7 +112,7 @@ namespace Movies.API
 
         private void RegisterMediator(IServiceCollection services)
         {
-            services.AddMediatR(typeof(Startup));
+            services.AddMediatR(typeof(CreateMovieCommandHandler).GetTypeInfo().Assembly);
         }
     }
 }
