@@ -16,7 +16,7 @@ namespace Movies.Application.Features.Movies.Commands.DeleteMovie
 
         public override async Task<MovieEntity> Handle(DeleteMovieCommand request, CancellationToken cancellationToken)
         {
-            var movieEntity = await _data.Movies.GetByIdAsync(request.Id);
+            var movieEntity = await _data.Movies.GetByIdAsync(request.Id.Value);
 
             await _data.Movies.DeleteAsync(movieEntity);
 

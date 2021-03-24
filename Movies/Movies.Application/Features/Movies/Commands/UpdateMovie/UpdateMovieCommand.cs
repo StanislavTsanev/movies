@@ -6,6 +6,6 @@ namespace Movies.Application.Features.Movies.Commands.UpdateMovie
 {
     public class UpdateMovieCommand : UpsertMovieCommand
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
     }
 }

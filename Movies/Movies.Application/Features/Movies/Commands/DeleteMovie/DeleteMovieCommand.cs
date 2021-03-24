@@ -5,6 +5,6 @@ namespace Movies.Application.Features.Movies.Commands.DeleteMovie
 {
     public class DeleteMovieCommand : BaseCommand<MovieEntity>
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
     }
 }

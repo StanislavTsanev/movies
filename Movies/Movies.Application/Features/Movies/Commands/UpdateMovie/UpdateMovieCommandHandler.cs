@@ -16,7 +16,7 @@ namespace Movies.Application.Features.Movies.Commands.UpdateMovie
 
         public override async Task<MovieEntity> Handle(UpdateMovieCommand request, CancellationToken cancellationToken)
         {
-            var movieEntity = await _data.Movies.GetByIdAsync(request.Id);
+            var movieEntity = await _data.Movies.GetByIdAsync(request.Id.Value);
 
             var updatedMovieEntity = _mapper.Map(request, movieEntity);
 
