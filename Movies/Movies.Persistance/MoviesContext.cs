@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Movies.Domain.Entities;
+using Movies.Infrastructure.Identity;
 using System;
 using System.Linq;
 using System.Threading;
@@ -7,12 +9,10 @@ using System.Threading.Tasks;
 
 namespace Movies.Persistance
 {
-    public class MoviesContext : DbContext
+    public class MoviesContext : IdentityDbContext<UserEntity>
     {
         public MoviesContext(DbContextOptions options)
-            : base(options){ }
-
-        public DbSet<UserEntity> Users { get; set; }
+            : base(options) { }
 
         public DbSet<MovieEntity> Movies { get; set; }
 
@@ -23,11 +23,13 @@ namespace Movies.Persistance
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfigurationsFromAssembly(typeof(MoviesContext).Assembly);
+
+            base.OnModelCreating(builder);
         }
 
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var createdEntities = ChangeTracker.Entries().Where(e => e.State == EntityState.Added).ToList();
+            var createdEntities = ChangeTracker.Entries<BaseEntity>().Where(e => e.State == EntityState.Added).ToList();
 
             createdEntities.ForEach(e =>
             {

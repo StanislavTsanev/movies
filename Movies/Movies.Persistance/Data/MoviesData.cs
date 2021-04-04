@@ -15,27 +15,22 @@ namespace Movies.Persistance.Data
 
         public MoviesData(
             MoviesContext moviesContext,
-            IAsyncRepository<UserEntity> users,
             IAsyncRepository<MovieEntity> movies,
             IAsyncRepository<GenreEntity> genres,
             IAsyncRepository<MovieGenreEntity> movieGenres)
         {
             _moviesContext = moviesContext;
-            Users = users;
             Movies = movies;
             Genres = genres;
             MovieGenres = movieGenres;
         }
-
-        public IAsyncRepository<UserEntity> Users { get; }
-
         public IAsyncRepository<MovieEntity> Movies { get; }
 
         public IAsyncRepository<GenreEntity> Genres { get; }
 
         public IAsyncRepository<MovieGenreEntity> MovieGenres { get; }
 
-        public IAsyncRepository<TEntity> Repository<TEntity>() 
+        public IAsyncRepository<TEntity> Repository<TEntity>()
             where TEntity : BaseEntity
         {
             var entityType = typeof(TEntity);

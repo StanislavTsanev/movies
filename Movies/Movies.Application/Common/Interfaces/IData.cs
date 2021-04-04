@@ -5,7 +5,7 @@ namespace Movies.Application.Common.Interfaces
 {
     public interface IData
     {
-        IAsyncRepository<UserEntity> Users { get; }
+        //IAsyncRepository<UserEntity> Users { get; }
 
         IAsyncRepository<MovieEntity> Movies { get; }
 

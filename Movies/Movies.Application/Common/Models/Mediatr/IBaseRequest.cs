@@ -2,6 +2,5 @@
 {
     public interface IBaseRequest
     {
-        UserInfo UserInfo { get; set; }
     }
 }

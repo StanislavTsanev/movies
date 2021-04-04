@@ -9,8 +9,6 @@ namespace Movies.Application.Features.Movies.AutoMapper
     {
         public MovieRequestToEntityProfile()
         {
-            AllowNullCollections = true;
-
             CreateMap<UpsertMovieCommand, MovieEntity>();
 
             CreateMap<UpdateMovieCommand, MovieEntity>()

@@ -12,6 +12,7 @@ namespace Movies.Application.Features.Movies.Commands.CreateMovie
     public class CreateMovieCommandHandler : BaseRequestHandler<CreateMovieCommand, MovieEntity>
     {
         private readonly IMediator _mediator;
+
         public CreateMovieCommandHandler(IData data, IMapper mapper, IMediator mediator) 
             : base(data, mapper)
         {
