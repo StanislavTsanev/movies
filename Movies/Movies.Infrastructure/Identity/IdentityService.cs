@@ -1,17 +1,17 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Movies.Application.Common.Exceptions;
 using Movies.Application.Features.Identity;
 using Movies.Application.Features.Identity.LoginUser;
 using Movies.Application.Features.Identity.Queries.Models;
 using Movies.Application.Features.Users;
 using Movies.Application.Features.Users.Commands.RegisterUserCommand;
-using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Movies.Infrastructure.Identity
 {
     public class IdentityService : IIdentity
     {
-        private const string InvalidCredentials = "Invalid credentials.";
         private readonly UserManager<UserEntity> _userManager;
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
         public IdentityService(UserManager<UserEntity> userManager, IJwtTokenGenerator jwtTokenGenerator)
@@ -21,6 +21,15 @@ namespace Movies.Infrastructure.Identity
         }
         public async Task<IUser> Register(RegisterUserCommand request)
         {
+            if (string.IsNullOrWhiteSpace(request.Password))
+                throw new ValidationException("Password is required.");
+
+            if (_userManager.Users.Any(x => x.UserName == request.UserName))
+                throw new ValidationException("Username already taken.");
+
+            if (_userManager.Users.Any(x => x.Email == request.Email))
+                throw new ValidationException("Email already taken.");
+
             var user = new UserEntity();
             user.UserName = request.UserName;
             user.Email = request.Email;
@@ -36,14 +45,14 @@ namespace Movies.Infrastructure.Identity
 
             if (user == null)
             {
-                throw new InvalidOperationException(InvalidCredentials);
+                return null;
             }
 
             var passwordValid = await _userManager.CheckPasswordAsync(user, request.Password);
 
             if (!passwordValid)
             {
-                throw new InvalidOperationException(InvalidCredentials);
+                return null;
             }
 
             var token = _jwtTokenGenerator.GenerateToken(user);
